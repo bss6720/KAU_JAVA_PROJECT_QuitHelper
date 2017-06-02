@@ -30,9 +30,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
         // 테이블의 이름과 열의 이름과 데이터 타입들을 정해준다.
-        String tableName = "CREATE TABLE " + TABLE_SMOKE + "(" + COLUMN_ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DATE + "TEXT, "
-                + COLUMN_COUNTER + " INTEGER" + ")";
+        String tableName = "CREATE TABLE " + TABLE_SMOKE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DATE + " TEXT, " + COLUMN_COUNTER + " INTEGER" + ")";
         db.execSQL(tableName);
     }
 
@@ -46,7 +44,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void add(String date, int count) {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO SmokeHistory VALUES(null, '" + date + "', " + count + ", );");
+        db.execSQL("INSERT INTO SmokeHistory VALUES(null, " + date + ", " + count + ")");
         db.close();
     }
 
@@ -63,12 +61,13 @@ public class DBHandler extends SQLiteOpenHelper {
             }
         }
         db.close();
+        cursor.close();
     }
 
     //받은 날짜의 count를 1더해준다.
-    public void incrementCounter(String date) {
+    public void incrementCount(String date) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE "+TABLE_SMOKE+"SET count = count + 1 WHERE date="+date);
+        db.execSQL("UPDATE "+TABLE_SMOKE+" SET counter = counter + 1 WHERE date = "+date);
         db.close();
     }
 
@@ -79,6 +78,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //db에 있는 모든 데이터를 list형식으로 반환
     public List<Smoke> getHistory() {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -89,7 +89,23 @@ public class DBHandler extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             smokeList.add(new Smoke(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
         }
+        cursor.close();
         return smokeList;
+    }
+
+    //특정한 날짜의 데이터를 리턴
+    public Smoke findData(String date) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from SmokeHistory where date="+date,null);
+        if(cursor!=null) {
+            Smoke data = new Smoke(cursor.getInt(0),cursor.getString(1),cursor.getInt(2));
+            cursor.close();
+            return data;
+        } else {
+            cursor.close();
+            return null;
+        }
+
     }
 }
 
