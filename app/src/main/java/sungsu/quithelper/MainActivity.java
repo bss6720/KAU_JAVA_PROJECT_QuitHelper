@@ -1,6 +1,7 @@
 package sungsu.quithelper;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,25 +23,9 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this, null, null, 1);
         res = (TextView) findViewById(R.id.history);
         SharedPreferences pref = getSharedPreferences("UserData", Activity.MODE_PRIVATE);
-        if(!(checkQuestionsAnswered())) {
-            //질문 activity
-
-            //DB 생성
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("hasAnswered", true);
-            editor.apply();
-            dbHandler.add(getDate(),0);
-        }
         dbHandler.update(getDate(),0);
         updateResult();
         //기본화면 코딩
-    }
-
-    //앱 처음 실행시 물어보는 질문들을 답했는지 확인
-    public boolean checkQuestionsAnswered() {
-        SharedPreferences pref = getSharedPreferences("UserData", Activity.MODE_PRIVATE); //default mode 0
-        boolean hasAnswered = pref.getBoolean("hasAnswered",false); //false여야됨
-        return hasAnswered;
     }
 
     public void incrementCounter (View view) {

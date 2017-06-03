@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -56,12 +57,24 @@ public class DBHandler extends SQLiteOpenHelper {
         int latestDate = Integer.parseInt(cursor.getString(1));
         int currentDate = Integer.parseInt(date);
         if(latestDate < currentDate) {
-            for(int i = latestDate + 1; i<=currentDate; i++) {
-                add(Integer.toString(i),count);
+            Calendar latest = Calendar.getInstance();
+            latest.set(latestDate/10000,(latestDate%10000)/100-1,1);
+            while(latestDate<currentDate) {
+                latestDate++;
+                if(latestDate%100>=latest.getActualMaximum(Calendar.DATE)+1) {
+                    latestDate+=100;
+                    latestDate=latestDate/100*100+1;
+                    if((latestDate%10000)/100>=13) {
+                        latestDate+=10000;
+                        latestDate = (latestDate/10000)*10000+101;
+                    }
+                    latest.set(latestDate/10000,(latestDate%10000)/100-1,1);
+                }
+                add(Integer.toString(latestDate),count);
             }
         }
-        db.close();
         cursor.close();
+        db.close();
     }
 
     //받은 날짜의 count를 1더해준다.
