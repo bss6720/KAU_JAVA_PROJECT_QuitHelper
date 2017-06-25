@@ -8,13 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    TextView res;
+    TextView res, todaySmoke;
     DBHandler dbHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +21,12 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this, null, null, 1);
         res = (TextView) findViewById(R.id.history);
         SharedPreferences pref = getSharedPreferences("UserData", Activity.MODE_PRIVATE);
-        dbHandler.update(getDate(),0);
+        dbHandler.update(0);
         updateResult();
-        //기본화면 코딩
     }
 
     public void incrementCounter (View view) {
-        dbHandler.update(getDate(),0);
+        dbHandler.update(0);
         String todayDate =getDate();
         dbHandler.incrementCount(todayDate);
         updateResult();
@@ -38,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
     //오늘의 날짜를 형식에 맞게 리턴
     public String getDate() {
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyMMdd");
-        return simpleDateFormat.format(date);
+        date.setToday();
+        return date.toString();
     }
 
     public void updateResult() {

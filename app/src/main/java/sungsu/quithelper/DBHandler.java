@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Calendar;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -50,28 +49,17 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // 현재 날짜와 DB의 마지막 날짜를 비교하여 빈 날짜를 새로 생성한다.
-    public void update(String date, int count) {
+    public void update(int count) {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+ TABLE_SMOKE,null);
         cursor.moveToLast();
-        int latestDate = Integer.parseInt(cursor.getString(1));
-        int currentDate = Integer.parseInt(date);
-        if(latestDate < currentDate) {
-            Calendar latest = Calendar.getInstance();
-            latest.set(latestDate/10000,(latestDate%10000)/100-1,1);
-            while(latestDate<currentDate) {
-                latestDate++;
-                if(latestDate%100>=latest.getActualMaximum(Calendar.DATE)+1) {
-                    latestDate+=100;
-                    latestDate=latestDate/100*100+1;
-                    if((latestDate%10000)/100>=13) {
-                        latestDate+=10000;
-                        latestDate = (latestDate/10000)*10000+101;
-                    }
-                    latest.set(latestDate/10000,(latestDate%10000)/100-1,1);
-                }
-                add(Integer.toString(latestDate),count);
-            }
+        Date latestDate = new Date();
+        latestDate.setDate(cursor.getString(1));
+        Date currentDate = new Date();
+        currentDate.setToday();
+        while(latestDate.compareTo(currentDate)<0) {
+            latestDate.next();
+            add(latestDate.toString(),count);
         }
         cursor.close();
         db.close();

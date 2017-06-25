@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class QuestionActivity extends AppCompatActivity {
 
@@ -28,15 +26,18 @@ public class QuestionActivity extends AppCompatActivity {
         age = ((EditText) findViewById(R.id.user_age)).getText().toString();
         date = (((EditText) findViewById(R.id.user_smoked))).getText().toString();
         average = ((EditText) findViewById(R.id.user_average_smoke)).getText().toString();
+        Date nalzza = new Date();
         if(name.equals("")) {
             Toast.makeText(getApplicationContext(),"이름을 입력해 주세요.",Toast.LENGTH_LONG).show();
         } else if(age.equals("")) {
             Toast.makeText(getApplicationContext(),"나이를 입력해 주세요.",Toast.LENGTH_LONG).show();
         } else if(date.equals("")) {
-            Toast.makeText(getApplicationContext(),"날짜를 입력해 주세요.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"날짜를 입력해 주세요.(yyyymmdd)",Toast.LENGTH_LONG).show();
         } else if(average.equals("")) {
             Toast.makeText(getApplicationContext(),"평균 흡연횟수를 입력해 주세요.",Toast.LENGTH_LONG).show();
-        } else {
+        } else if(nalzza.setDate(date)) {
+            Toast.makeText(getApplicationContext(),"잘못된 날짜입니다.",Toast.LENGTH_LONG).show();
+        } else{
             SharedPreferences pref = getSharedPreferences("UserData", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("userName",name);
@@ -47,7 +48,8 @@ public class QuestionActivity extends AppCompatActivity {
             editor.apply();
             DBHandler dbHandler=new DBHandler(this,null,null,1);
             dbHandler.add(pref.getString("smokeDate",getDate()),pref.getInt("smokeAverage",0));
-            dbHandler.update(Integer.toString(Integer.parseInt(getDate())-1),pref.getInt("smokeAverage",0));
+            dbHandler.update(pref.getInt("smokeAverage",0));
+            dbHandler.delete(getDate());
             dbHandler.add(getDate(),0);
             dbHandler.close();
             startActivity(new Intent(this, MainActivity.class));
@@ -64,7 +66,7 @@ public class QuestionActivity extends AppCompatActivity {
     //오늘의 날짜를 형식에 맞게 리턴
     public String getDate() {
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyMMdd");
-        return simpleDateFormat.format(date);
+        date.setToday();
+        return date.toString();
     }
 }

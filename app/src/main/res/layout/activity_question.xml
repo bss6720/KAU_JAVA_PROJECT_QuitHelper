@@ -19,8 +19,7 @@
             android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:inputType="text"/>
+            android:layout_marginLeft="16dp"/>
 
     </LinearLayout>
 
@@ -51,14 +50,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="흡연 시작 날짜" />
+            android:text="흡연 시작 날짜(yyyymmdd)" />
 
         <EditText
             android:id="@+id/user_smoked"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:inputType="date" />
+            android:inputType="number" />
 
     </LinearLayout>
 
