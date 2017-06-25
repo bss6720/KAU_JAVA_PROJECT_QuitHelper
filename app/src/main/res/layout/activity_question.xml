@@ -19,7 +19,8 @@
             android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="16dp"
+            android:inputType="text"/>
 
     </LinearLayout>
 
@@ -90,8 +91,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="시작하기"
-            android:onClick="saveInformation"/>
+            android:onClick="saveInformation"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:text="시작하기" />
 
     </LinearLayout>
 </LinearLayout>

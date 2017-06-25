@@ -53,10 +53,8 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+ TABLE_SMOKE,null);
         cursor.moveToLast();
-        Date latestDate = new Date();
-        latestDate.setDate(cursor.getString(1));
+        Date latestDate = new Date(cursor.getString(1));
         Date currentDate = new Date();
-        currentDate.setToday();
         while(latestDate.compareTo(currentDate)<0) {
             latestDate.next();
             add(latestDate.toString(),count);
@@ -80,10 +78,10 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     //db에 있는 모든 데이터를 list형식으로 반환
-    public List<Smoke> getHistory() {
+    public ArrayList<Smoke> getHistory() {
         SQLiteDatabase db = getReadableDatabase();
 
-        List<Smoke> smokeList = new ArrayList<Smoke>();
+        ArrayList<Smoke> smokeList = new ArrayList<Smoke>();
 
         // DB에 있는 데이터를 Cursor를 사용하여 테이블에 있는 데이터를 List에 넣어서 반환
         Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_SMOKE, null);

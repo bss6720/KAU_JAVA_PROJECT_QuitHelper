@@ -32,11 +32,11 @@ public class QuestionActivity extends AppCompatActivity {
         } else if(age.equals("")) {
             Toast.makeText(getApplicationContext(),"나이를 입력해 주세요.",Toast.LENGTH_LONG).show();
         } else if(date.equals("")) {
-            Toast.makeText(getApplicationContext(),"날짜를 입력해 주세요.(yyyymmdd)",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"날짜를 입력해 주세요.",Toast.LENGTH_LONG).show();
         } else if(average.equals("")) {
             Toast.makeText(getApplicationContext(),"평균 흡연횟수를 입력해 주세요.",Toast.LENGTH_LONG).show();
-        } else if(nalzza.setDate(date)) {
-            Toast.makeText(getApplicationContext(),"잘못된 날짜입니다.",Toast.LENGTH_LONG).show();
+        } else if(!nalzza.setDate(date)) {
+            Toast.makeText(getApplicationContext(),"yyyymmdd 형식으로 입력해주세요.",Toast.LENGTH_LONG).show();
         } else{
             SharedPreferences pref = getSharedPreferences("UserData", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
@@ -66,7 +66,6 @@ public class QuestionActivity extends AppCompatActivity {
     //오늘의 날짜를 형식에 맞게 리턴
     public String getDate() {
         Date date = new Date();
-        date.setToday();
         return date.toString();
     }
 }
