@@ -3,7 +3,6 @@ package sungsu.quithelper;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
 public class Smoker extends Person {
     ArrayList<Smoke> smokeHistory;
     boolean quitSmoking;
@@ -65,4 +64,41 @@ public class Smoker extends Person {
         return date.toString();
     }
 
+    public void getDailyHistory(int dailyPoints[]) {
+
+        for(int i = 0;i < 7 ;i++) {
+            Smoke smoke = smokeHistory.get(smokeHistory.size()-i-1);
+            dailyPoints[6-i] = smoke.getCount();
+        }
+    }
+
+    public void getMonthlyHistory(int monthlyPoints[]) {
+        Date endDate = smokeHistory.get(smokeHistory.size()-1).getDate();
+        int i = smokeHistory.size()-1;
+        int j = 6;
+        while(i >= 0 && j >= 0) {
+            if(smokeHistory.get(i).getDate().getMonth() == endDate.getMonth()) {
+                monthlyPoints[j]+=smokeHistory.get(i).getCount();
+                i--;
+            } else {
+                j--;
+                endDate = smokeHistory.get(i).getDate();
+            }
+        }
+    }
+
+    public void getYearlyHistory(int yearlyPoints[]) {
+        Date endDate = smokeHistory.get(smokeHistory.size()-1).getDate();
+        int i = smokeHistory.size()-1;
+        int j = 6;
+        while(i >= 0 && j >= 0) {
+            if(smokeHistory.get(i).getDate().getYear() == endDate.getYear()) {
+                yearlyPoints[j]+=smokeHistory.get(i).getCount();
+                i--;
+            } else {
+                j--;
+                endDate = smokeHistory.get(i).getDate();
+            }
+        }
+    }
 }

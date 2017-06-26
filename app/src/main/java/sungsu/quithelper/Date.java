@@ -10,6 +10,9 @@ public class Date implements Comparable<Date>{
     public Date() {
         setToday();
     }
+    public Date(int y, int m, int d) {
+        setDate(y,m,d);
+    }
     public int getYear() {
         return year;
     }
@@ -66,6 +69,10 @@ public class Date implements Comparable<Date>{
             }
             day = 1;
         }
+    }
+
+    public String monthDay() {
+        return String.format("%d월 %d일",month,day);
     }
 
     @Override
