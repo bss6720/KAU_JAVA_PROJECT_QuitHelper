@@ -5,31 +5,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Daily"
-            android:onClick="setDaily"/>
+            android:onClick="setDaily"
+            android:text="Daily" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monthly"
-            android:onClick="setMonthly"/>
+            android:onClick="setMonthly"
+            android:text="Monthly" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Yearly"
-            android:onClick="setYearly"/>
+            android:onClick="setYearly"
+            android:text="Yearly" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:id="@+id/graph" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph"
+            android:layout_width="350dp"
+            android:layout_height="400dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/timelabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

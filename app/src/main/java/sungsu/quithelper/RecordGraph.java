@@ -4,26 +4,31 @@ package sungsu.quithelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 public class RecordGraph extends AppCompatActivity {
     int [][]points;
     GraphView graph;
-    int[][] dates;
+    String[] xLabel;
+    TextView xText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_graph);
         points = new int[3][7];
+        xLabel = new String[3];
+        xLabel[0] = " 6일전    5일전    4일전    3일전    2일전    1일전    오늘";
+        xLabel[1] = "   6달전   5달전   4달전    3달전    2달전    1달전   이번달";
+        xLabel[2] = "      6년전   5년전   4년전   3년전    2년전   1년전  이번해";
         MainActivity.smoker.getDailyHistory(points[0]);
         MainActivity.smoker.getMonthlyHistory(points[1]);
         MainActivity.smoker.getYearlyHistory(points[2]);
         graph = (GraphView) findViewById(R.id.graph);
+        xText = (TextView) findViewById(R.id.timelabel);
         graph.getViewport().setMaxX(7);
         graph.getViewport().setXAxisBoundsManual(true);
         setGraph(0);
@@ -43,6 +48,7 @@ public class RecordGraph extends AppCompatActivity {
         });
         graph.addSeries(series);
         series.setSpacing(50);
+        xText.setText(xLabel[r]);
     }
 
     public void setDaily(View view) {

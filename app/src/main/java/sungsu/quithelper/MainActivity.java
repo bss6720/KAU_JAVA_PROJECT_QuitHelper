@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
-    TextView res, todaySmoke;
-    DBHandler dbHandler;
     static Smoker smoker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

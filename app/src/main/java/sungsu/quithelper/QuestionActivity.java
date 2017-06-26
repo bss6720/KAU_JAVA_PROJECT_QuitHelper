@@ -36,7 +36,7 @@ public class QuestionActivity extends AppCompatActivity {
         } else if(average.equals("")) {
             Toast.makeText(getApplicationContext(),"평균 흡연횟수를 입력해 주세요.",Toast.LENGTH_LONG).show();
         } else if(!nalzza.setDate(date)) {
-            Toast.makeText(getApplicationContext(),"yyyymmdd 형식으로 입력해주세요.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"yyyymmdd 형식이 아니거나 잘못된 날짜입니다.",Toast.LENGTH_LONG).show();
         } else{
             SharedPreferences pref = getSharedPreferences("UserData", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
@@ -46,6 +46,7 @@ public class QuestionActivity extends AppCompatActivity {
             editor.putInt("smokeAverage",Integer.parseInt(average));
             editor.putBoolean("hasAnswered", true);
             editor.apply();
+            Toast.makeText(getApplicationContext(),"데이터 생성중...",Toast.LENGTH_LONG).show();
             DBHandler dbHandler=new DBHandler(this,null,null,1);
             dbHandler.add(pref.getString("smokeDate",getDate()),pref.getInt("smokeAverage",0));
             dbHandler.update(pref.getInt("smokeAverage",0));
