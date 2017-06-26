@@ -1,5 +1,7 @@
 package sungsu.quithelper;
 
+import android.graphics.Color;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ public class Smoker extends Person {
     DBHandler dbHandler;
     TextView state;
     TextView info;
+    LinearLayout layoutMain;
     String[] healthChange;
     public Smoker(String name, int age, MainActivity main) {
         super(name,age);
@@ -16,6 +19,7 @@ public class Smoker extends Person {
         dbHandler = new DBHandler(main, null, null, 1);
         state = (TextView) main.findViewById(R.id.userstate);
         info = (TextView) main.findViewById(R.id.information);
+        layoutMain = (LinearLayout) main.findViewById(R.id.mainlayout);
         dbHandler.update(0);
         smokeHistory = dbHandler.getHistory();
         healthChange=new String[8];
@@ -52,6 +56,7 @@ public class Smoker extends Person {
         setHistory();
         int numSmoke = smokeHistory.get(smokeHistory.size()-1).getCount();
         if(numSmoke==0) {
+            layoutMain.setBackgroundColor(Color.rgb(255,255,255));
             //금연중인 일수를 찾음.
             quitSmoking=true;
             int smokeFree = 0;
@@ -84,6 +89,13 @@ public class Smoker extends Person {
                 info.setText(healthChange[0]);
             }
         } else {
+            int col = 255/(int)(Math.pow(numSmoke,0.5));
+            col = Color.rgb(col,col,col);
+            layoutMain.setBackgroundColor(col);
+            if(col<=Color.LTGRAY) {
+                state.setTextColor(Color.WHITE);
+                info.setTextColor(Color.WHITE);
+            }
             quitSmoking=true;
             state.setText(getName()+"님은 오늘 "+numSmoke+"번 흡연하셨습니다.\n오늘 흡연에 사용한 돈: "+(numSmoke*225)+"원");
             info.setText("흡연자가 흡연 전 상태로 돌아가는데는 약 15년의 시간이 걸립니다.");

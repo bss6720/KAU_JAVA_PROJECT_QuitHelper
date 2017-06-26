@@ -38,6 +38,7 @@ public class QuestionActivity extends AppCompatActivity {
         } else if(!nalzza.setDate(date)) {
             Toast.makeText(getApplicationContext(),"yyyymmdd 형식이 아니거나 잘못된 날짜입니다.",Toast.LENGTH_LONG).show();
         } else{
+            Toast.makeText(getApplicationContext(),"데이터 생성중...",Toast.LENGTH_LONG).show();
             SharedPreferences pref = getSharedPreferences("UserData", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("userName",name);
@@ -46,7 +47,6 @@ public class QuestionActivity extends AppCompatActivity {
             editor.putInt("smokeAverage",Integer.parseInt(average));
             editor.putBoolean("hasAnswered", true);
             editor.apply();
-            Toast.makeText(getApplicationContext(),"데이터 생성중...",Toast.LENGTH_LONG).show();
             DBHandler dbHandler=new DBHandler(this,null,null,1);
             dbHandler.add(pref.getString("smokeDate",getDate()),pref.getInt("smokeAverage",0));
             dbHandler.update(pref.getInt("smokeAverage",0));

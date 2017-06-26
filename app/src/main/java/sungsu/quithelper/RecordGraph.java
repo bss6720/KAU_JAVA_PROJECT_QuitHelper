@@ -23,7 +23,7 @@ public class RecordGraph extends AppCompatActivity {
         xLabel = new String[3];
         xLabel[0] = " 6일전    5일전    4일전    3일전    2일전    1일전    오늘";
         xLabel[1] = "   6달전   5달전   4달전    3달전    2달전    1달전   이번달";
-        xLabel[2] = "      6년전   5년전   4년전   3년전    2년전   1년전  이번해";
+        xLabel[2] = "       6년전   5년전   4년전   3년전   2년전   1년전  이번해";
         MainActivity.smoker.getDailyHistory(points[0]);
         MainActivity.smoker.getMonthlyHistory(points[1]);
         MainActivity.smoker.getYearlyHistory(points[2]);
